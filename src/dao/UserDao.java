@@ -77,4 +77,22 @@ public class UserDao {
         }
     }
 
+    public int getUserId(String username) {
+        conn = MyJdbcUtils.getConn();
+        try {
+            String sql = "SELECT id FROM users WHERE username = ?";
+            pStat = conn.prepareStatement(sql);
+            pStat.setString(1, username);
+            rs = pStat.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        } finally {
+            close();
+        }
+    }
 }
