@@ -46,6 +46,9 @@ fabric.properties
 
 ###############################################################################
 
+#idea plugin
+.idea/markdown-navigator/
+
 ##Java.gitignore
 *.class
 
