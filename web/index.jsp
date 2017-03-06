@@ -13,18 +13,6 @@
   </head>
   <body>
 
-  <%-- 提示信息 --%>
-  <%
-      String hint = (String) session.getAttribute("hint");
-      String color = (String) session.getAttribute("color");
-      if (hint != null) {
-  %>
-  <div style="color: <%=color%>"><%=hint%> test </div>
-  <%
-          session.removeAttribute("hint");
-      }
-  %>
-
   <div style="font-size: 26px">请输入用户信息：</div>
   <form action="Login">
       <table>
@@ -46,6 +34,8 @@
   </form>
   <br/>
   <a href="register.jsp">还没有账号？点击此处注册。</a>
+
+  <a href="addRecord.jsp">点击添加运动记录。</a>
   </body>
 </html>
 

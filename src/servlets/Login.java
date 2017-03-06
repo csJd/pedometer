@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 /**
  * Created by dd on 2017/3/2.
  */
-@WebServlet("/Login")
+@WebServlet(name = "Login", urlPatterns = "/login")
 public class Login extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

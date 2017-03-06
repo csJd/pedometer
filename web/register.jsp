@@ -12,18 +12,6 @@
 </head>
 <body>
 
-<%-- 提示信息 --%>
-<%
-    String hint = (String) session.getAttribute("hint");
-    String color = (String) session.getAttribute("color");
-    if (hint != null) {
-%>
-<div style="color: <%=color%>"> <%=hint%> </div>
-<%
-        session.removeAttribute("hint");
-    }
-%>
-
 <div style="font-size: 26px">请输入注册信息：</div>
 <br/>
 <form action="Register">

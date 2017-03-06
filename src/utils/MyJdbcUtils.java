@@ -24,10 +24,12 @@ public class MyJdbcUtils {
         }
     }
 
-    public static void closeConn(Connection conn){
+    public static void close(Connection conn, PreparedStatement pStat, ResultSet rs) {
         try{
-            if(conn != null) conn.close();
-        }catch (Exception e){
+            if (rs != null) rs.close();
+            if (pStat != null) pStat.close();
+            if (conn != null) conn.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

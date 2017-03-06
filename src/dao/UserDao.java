@@ -17,13 +17,7 @@ public class UserDao {
     private ResultSet rs = null;
 
     public void close(){
-        try{
-            if(rs!=null) rs.close();
-            if (pStat != null) pStat.close();
-            if (conn != null) conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MyJdbcUtils.close(conn, pStat, rs);
     }
 
     public boolean findByUserName(String username){
