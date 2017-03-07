@@ -54,8 +54,8 @@ public class UserDao {
     }
 
     public boolean addUser(User user) {
-        conn = MyJdbcUtils.getConn();
         try {
+            conn = MyJdbcUtils.getConn();
             String sql = "INSERT INTO users VALUES(null, ?, ?, ?)";
             pStat = conn.prepareStatement(sql);
             pStat.setString(1, user.getUsername());
@@ -71,12 +71,12 @@ public class UserDao {
         }
     }
 
+    //根据用户名查询用户id
     public int getUserId(String username) {
         conn = MyJdbcUtils.getConn();
         try {
-            String sql = "SELECT id FROM users WHERE username = ?";
+            String sql = "SELECT id FROM users WHERE username = " + username;
             pStat = conn.prepareStatement(sql);
-            pStat.setString(1, username);
             rs = pStat.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
@@ -85,6 +85,43 @@ public class UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
+        } finally {
+            close();
+        }
+    }
+
+    //根据账户查询用户id
+    public int getUserIdByAccount(String account) {
+        conn = MyJdbcUtils.getConn();
+        try {
+            String sql = "SELECT id FROM users WHERE account = " + account;
+            pStat = conn.prepareStatement(sql);
+            rs = pStat.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        } finally {
+            close();
+        }
+    }
+
+    public String getUsername(int id) {
+        conn = MyJdbcUtils.getConn();
+        try {
+            String sql = "SELECT username FROM users WHERE id = " + id;
+            pStat = conn.prepareStatement(sql);
+            rs = pStat.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         } finally {
             close();
         }
