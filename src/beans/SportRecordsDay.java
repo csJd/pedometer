@@ -4,14 +4,14 @@ package beans;
  * Created by dd on 2017/3/6.
  */
 public class SportRecordsDay {
-    private double totalDistance;
-    private int totalTime;
-    private int totalCount;
-    private int day;
-    private int week;
-    private int weekDay;
-    private int month;
-    private int monthDay;
+    private double totalDistance; //运动距离
+    private int totalTime; //运动时间
+    private int totalCount; //运动步数
+    private int day; //这条记录属于哪一天
+    private int week; //这条记录属于那一周
+    private int weekDay; //该数据属于周几
+    private int month; //该数据属于哪个月
+    private int monthDay; //该数据属于一个月的第几天
 
     public double getTotalDistance() {
         return totalDistance;

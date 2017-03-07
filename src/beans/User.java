@@ -8,8 +8,19 @@ public class User {
     private String username;
     private String account;
     private String password;
+    private String sql;
+
+
+    public String getSql() {
+        return sql;
+    }
+
+    public void setSql(String sql) {
+        this.sql = sql;
+    }
 
     public long getId() {
+
         return id;
     }
 

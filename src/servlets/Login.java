@@ -29,6 +29,7 @@ public class Login extends HttpServlet {
         } else {
             writer.write("登录失败，请检查用户名和密码！");
         }
+        writer.flush();
         writer.close();
     }
 }

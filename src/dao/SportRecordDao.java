@@ -20,7 +20,7 @@ public class SportRecordDao {
     private PreparedStatement pStat = null;
     private ResultSet rs = null;
 
-    public void close() {
+    private void close() {
         MyJdbcUtils.close(conn, pStat, rs);
     }
 
@@ -48,11 +48,75 @@ public class SportRecordDao {
     }
 
     public ArrayList<SportRecordsStatistics> dateStatistics(User user) {
-        return null;
+        ArrayList<SportRecordsStatistics> ret = new ArrayList<>();
+
+        String sql = "SELECT DATE_FORMAT(start_time, '" + user.getSql() + "') AS date," +
+                " SUM(step_count) AS total_count," +
+                " SUM(time) AS total_time," +
+                " SUM(distance) AS total_distance" +
+                " FROM sport_records" +
+                " WHERE uid = " + user.getId() +
+                " GROUP BY date";
+        System.out.println(sql);
+
+        try {
+            conn = MyJdbcUtils.getConn();
+            pStat = conn.prepareStatement(sql);
+            rs = pStat.executeQuery();
+            while (rs.next()) {
+                SportRecordsStatistics srs = new SportRecordsStatistics();
+                srs.setDate(rs.getInt(1));
+                srs.setTotalCount(rs.getInt(2));
+                srs.setTotalTime(rs.getInt(3));
+                srs.setTotalDistance(rs.getDouble(4));
+                ret.add(srs);
+            }
+            return ret;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ret;
+        } finally {
+            close();
+        }
     }
 
     public ArrayList<SportRecordsDay> dayStatistics(User user) {
-        return null;
+        ArrayList<SportRecordsDay> ret = new ArrayList<>();
+
+        String sql = "SELECT SUM(distance) AS total_distance," +
+                " SUM(time) AS total_time," +
+                " SUM(step_count) AS total_count," +
+                " DAY(start_time) AS day," +
+                " MONTH(start_time) AS month," +
+                " WEEK(start_time) AS week," +
+                " WEEKDAY(start_time) AS weekday" +
+                " FROM sport_records" +
+                " WHERE uid = " + user.getId() +
+                " GROUP BY start_time";
+
+        try {
+            conn = MyJdbcUtils.getConn();
+            pStat = conn.prepareStatement(sql);
+            rs = pStat.executeQuery();
+            while (rs.next()) {
+                SportRecordsDay srd = new SportRecordsDay();
+                srd.setTotalDistance(rs.getDouble(1));
+                srd.setTotalTime(rs.getInt(2));
+                srd.setTotalCount(rs.getInt(3));
+                srd.setDay(rs.getInt(4));
+                srd.setMonth(rs.getInt(5));
+                srd.setMonthDay(rs.getInt(4));
+                srd.setWeek(rs.getInt(6));
+                srd.setWeekDay(rs.getInt(7));
+                ret.add(srd);
+            }
+            return ret;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ret;
+        } finally {
+            close();
+        }
     }
 
     public void selectDay(int day, SportRecordsDay srd) {
@@ -60,7 +124,29 @@ public class SportRecordDao {
     }
 
     public SportRecord sum(User user) {
-        return null;
+        SportRecord sr = new SportRecord();
+        String sql = "SELECT SUM(step_count) AS step_count," +
+                " SUM(time) AS time," +
+                " SUM(distance) AS distance" +
+                " FROM sport_records" +
+                " WHERE uid = " + user.getId();
+        try {
+            conn = MyJdbcUtils.getConn();
+            pStat = conn.prepareStatement(sql);
+            rs = pStat.executeQuery();
+            if (rs.next()) {
+                sr.setStepCount(rs.getInt(1));
+                sr.setTime(rs.getInt(2));
+                sr.setDistance(rs.getDouble(3));
+            }
+            return sr;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return sr;
+        } finally {
+            close();
+        }
     }
 
 

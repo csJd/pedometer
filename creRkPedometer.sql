@@ -2,10 +2,10 @@ create database pedometer;
 USE pedometer;
 
 create table users (
-	id int primary key auto_increment,
-	username varchar(40),
-	account varchar(40),
-	password varchar(40)
+  id       int primary key auto_increment,
+  username TEXT,
+  account  TEXT,
+  password TEXT
 );
 
 create table sport_records (
@@ -14,8 +14,8 @@ create table sport_records (
   distance   double,
   time       int,
   speed      double,
-  start_time TEXT,
-  stop_time  TEXT,
+  start_time DATE,
+  stop_time  DATE,
   step_count int,
     foreign key(uid) references users(id)
 );
