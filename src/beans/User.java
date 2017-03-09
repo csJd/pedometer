@@ -4,7 +4,7 @@ package beans;
  * Created by dd on 2017/3/2.
  */
 public class User {
-    private long id;
+    private int id;
     private String username;
     private String account;
     private String password;
@@ -19,7 +19,7 @@ public class User {
         this.sql = sql;
     }
 
-    public long getId() {
+    public int getId() {
 
         return id;
     }
@@ -48,7 +48,7 @@ public class User {
         this.password = password;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 }

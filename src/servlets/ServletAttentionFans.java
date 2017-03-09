@@ -1,5 +1,6 @@
 package servlets;
 
+import beans.User;
 import beans.UserRelative;
 import dao.UserDao;
 import dao.UserRelativeDao;
@@ -27,19 +28,21 @@ public class ServletAttentionFans extends HttpServlet {
         UserDao ud = new UserDao();
         UserRelativeDao urd = new UserRelativeDao();
 
-        int uid = ud.getUserId(req.getParameter("username"));
+        User user = new User();
+        user.setUsername(req.getParameter("username"));
+        int uid = ud.getUserId(user);
         UserRelative ur = new UserRelative();
         ur.setUid1(uid);
         ur.setUid2(uid);
-        ArrayList<Integer> list1 = urd.findAllId1(ur);
-        ArrayList<Integer> list2 = urd.findAllId2(ur);
+        ArrayList<Integer> list1 = urd.findAllId(ur, 1);
+        ArrayList<Integer> list2 = urd.findAllId(ur, 2);
         writer.write("fans: \n");
         for (Integer i : list1) {
-            writer.write("  " + ud.getUsername(i));
+            writer.write("  " + i);
         }
         writer.write("following: \n");
         for (Integer i : list2) {
-            writer.write("  " + ud.getUsername(i));
+            writer.write("  " + i);
         }
 
         writer.flush();

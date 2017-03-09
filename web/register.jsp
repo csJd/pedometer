@@ -14,7 +14,7 @@
 
 <div style="font-size: 26px">请输入注册信息：</div>
 <br/>
-<form action="Register">
+<form action="register">
     <table>
         <tr>
             <td>用户名：</td>

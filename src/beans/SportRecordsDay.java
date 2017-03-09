@@ -11,7 +11,6 @@ public class SportRecordsDay {
     private int week; //这条记录属于那一周
     private int weekDay; //该数据属于周几
     private int month; //该数据属于哪个月
-    private int monthDay; //该数据属于一个月的第几天
 
     public double getTotalDistance() {
         return totalDistance;
@@ -67,13 +66,5 @@ public class SportRecordsDay {
 
     public void setMonth(int month) {
         this.month = month;
-    }
-
-    public int getMonthDay() {
-        return monthDay;
-    }
-
-    public void setMonthDay(int monthDay) {
-        this.monthDay = monthDay;
     }
 }

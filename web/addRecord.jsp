@@ -13,7 +13,7 @@
 <body>
 <div style="font-size: 26px">请输入记录信息：</div>
 <br/>
-<form action="Record">
+<form action="record">
     <table>
         <tr>
             <td>用户名：</td>

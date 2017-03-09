@@ -55,31 +55,18 @@ public class UserRelativeDao {
         }
     }
 
-    public ArrayList<Integer> findAllId1(UserRelative userRelative) {
-        int uid2 = userRelative.getUid2();
-        ArrayList<Integer> ret = new ArrayList<>();
-        String sql = "SELECT uid1 FROM user_relatives WHERE uid2 = " + uid2;
-        try {
-            conn = MyJdbcUtils.getConn();
-            pStat = conn.prepareStatement(sql);
-            rs = pStat.executeQuery();
-            while (rs.next()) {
-                ret.add(rs.getInt(1));
-            }
-            return ret;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ret;
+    public ArrayList<Integer> findAllId(UserRelative ur, int op) {
+        String sql = "SELECT uid1 FROM user_relatives WHERE uid2 = ?";
+        int uid = ur.getUid2();
+        if (op == 2) {
+            sql = "SELECT uid2 FROM user_relatives WHERE uid1 = ?";
+            uid = ur.getUid1();
         }
-    }
-
-    public ArrayList<Integer> findAllId2(UserRelative userRelative) {
-        int uid1 = userRelative.getUid1();
         ArrayList<Integer> ret = new ArrayList<>();
-        String sql = "SELECT uid2 FROM user_relatives WHERE uid1 = " + uid1;
         try {
             conn = MyJdbcUtils.getConn();
             pStat = conn.prepareStatement(sql);
+            pStat.setInt(1, uid);
             rs = pStat.executeQuery();
             while (rs.next()) {
                 ret.add(rs.getInt(1));

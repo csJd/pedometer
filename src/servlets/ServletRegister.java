@@ -14,8 +14,8 @@ import java.io.PrintWriter;
 /**
  * Created by dd on 2017/3/2.
  */
-@WebServlet(name = "Register", urlPatterns = "/register")
-public class Register extends HttpServlet {
+@WebServlet(name = "ServletRegister", urlPatterns = "/register")
+public class ServletRegister extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
@@ -28,17 +28,18 @@ public class Register extends HttpServlet {
         UserDao ud = new UserDao();
         PrintWriter writer = resp.getWriter();
 
-        if(ud.findByUserName(username)){
-            writer.write("用户名已存在，注册失败！");
+        User user = new User();
+        user.setUsername(username);
+        user.setAccount(account);
+
+        if (ud.exists(user)) {
+            writer.write("false");
         } else {
-            User user = new User();
-            user.setUsername(username);
             user.setPassword(password);
-            user.setAccount(account);
             if(ud.addUser(user)){
-                writer.write("注册成功！");
+                writer.write("true");
             } else {
-                writer.write("服务错误！");
+                writer.write("error");
             }
         }
         writer.flush();

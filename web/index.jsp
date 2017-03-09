@@ -38,13 +38,15 @@
   <a href="addRecord.jsp">点击添加运动记录。</a><br/><br/>
 
   查询运动记录信息:
-  <form action="pedometer">
+  <form action="statistics">
       <table>
           <tr>
               <td>method：</td>
               <td><select name="method"/>
-                  <option value="week">week</option>
                   <option value="total">total</option>
+                  <option value="year">year</option>
+                  <option value="month">month</option>
+                  <option value="week">week</option>
               </td>
           </tr>
           <tr>

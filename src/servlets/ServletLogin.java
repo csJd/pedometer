@@ -1,5 +1,6 @@
 package servlets;
 
+import beans.User;
 import dao.UserDao;
 
 import javax.servlet.ServletException;
@@ -13,21 +14,23 @@ import java.io.PrintWriter;
 /**
  * Created by dd on 2017/3/2.
  */
-@WebServlet(name = "Login", urlPatterns = "/login")
-public class Login extends HttpServlet {
+@WebServlet(name = "ServletLogin", urlPatterns = "/login")
+public class ServletLogin extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
 
         UserDao ud = new UserDao();
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
+        User user = new User();
+        user.setUsername(req.getParameter("username"));
+        user.setPassword(req.getParameter("password"));
+
         PrintWriter writer = resp.getWriter();
-        if(ud.userLogin(username,password)){
-            writer.write("登录成功，欢迎！");
+        if (ud.userLogin(user)) {
+            writer.write("true");
         } else {
-            writer.write("登录失败，请检查用户名和密码！");
+            writer.write("false");
         }
         writer.flush();
         writer.close();

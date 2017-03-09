@@ -20,12 +20,13 @@ public class UserDao {
         MyJdbcUtils.close(conn, pStat, rs);
     }
 
-    public boolean findByUserName(String username){
+    public boolean exists(User user) {
         conn = MyJdbcUtils.getConn();
         try {
-            String sql = "SELECT * FROM users WHERE username = ?";
+            String sql = "SELECT * FROM users WHERE username = ? OR password = ?";
             pStat = conn.prepareStatement(sql);
-            pStat.setString(1, username);
+            pStat.setString(1, user.getUsername());
+            pStat.setString(2, user.getAccount());
             rs = pStat.executeQuery();
             return rs.next();
         } catch (Exception e) {
@@ -36,13 +37,13 @@ public class UserDao {
         }
     }
 
-    public boolean userLogin(String username, String password){
+    public boolean userLogin(User user) {
         conn = MyJdbcUtils.getConn();
         try {
             String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
             pStat = conn.prepareStatement(sql);
-            pStat.setString(1, username);
-            pStat.setString(2, password);
+            pStat.setString(1, user.getUsername());
+            pStat.setString(2, user.getPassword());
             rs = pStat.executeQuery();
             return rs.next();
         } catch (Exception e) {
@@ -71,12 +72,14 @@ public class UserDao {
         }
     }
 
-    //根据用户名查询用户id
-    public int getUserId(String username) {
+    //根据用户名或账号查询用户id
+    public int getUserId(User user) {
         conn = MyJdbcUtils.getConn();
         try {
-            String sql = "SELECT id FROM users WHERE username = " + username;
+            String sql = "SELECT id FROM users WHERE username = ? OR account = ?";
             pStat = conn.prepareStatement(sql);
+            pStat.setString(1, user.getUsername());
+            pStat.setString(2, user.getAccount());
             rs = pStat.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
@@ -90,30 +93,12 @@ public class UserDao {
         }
     }
 
-    //根据账户查询用户id
-    public int getUserIdByAccount(String account) {
+    public String getUsername(User user) {
         conn = MyJdbcUtils.getConn();
         try {
-            String sql = "SELECT id FROM users WHERE account = " + account;
+            String sql = "SELECT username FROM users WHERE id = ?";
             pStat = conn.prepareStatement(sql);
-            rs = pStat.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-            return 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        } finally {
-            close();
-        }
-    }
-
-    public String getUsername(int id) {
-        conn = MyJdbcUtils.getConn();
-        try {
-            String sql = "SELECT username FROM users WHERE id = " + id;
-            pStat = conn.prepareStatement(sql);
+            pStat.setInt(1, user.getId());
             rs = pStat.executeQuery();
             if (rs.next()) {
                 return rs.getString(1);

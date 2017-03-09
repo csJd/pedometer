@@ -57,7 +57,7 @@ public class SportRecordDao {
                 " FROM sport_records" +
                 " WHERE uid = " + user.getId() +
                 " GROUP BY date";
-        System.out.println(sql);
+        // System.out.println(sql);
 
         try {
             conn = MyJdbcUtils.getConn();
@@ -105,7 +105,6 @@ public class SportRecordDao {
                 srd.setTotalCount(rs.getInt(3));
                 srd.setDay(rs.getInt(4));
                 srd.setMonth(rs.getInt(5));
-                srd.setMonthDay(rs.getInt(4));
                 srd.setWeek(rs.getInt(6));
                 srd.setWeekDay(rs.getInt(7));
                 ret.add(srd);
@@ -117,10 +116,6 @@ public class SportRecordDao {
         } finally {
             close();
         }
-    }
-
-    public void selectDay(int day, SportRecordsDay srd) {
-
     }
 
     public SportRecord sum(User user) {
@@ -148,6 +143,5 @@ public class SportRecordDao {
             close();
         }
     }
-
 
 }

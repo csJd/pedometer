@@ -1,6 +1,7 @@
 package servlets;
 
 import beans.SportRecord;
+import beans.User;
 import dao.SportRecordDao;
 import dao.UserDao;
 
@@ -15,8 +16,8 @@ import java.io.PrintWriter;
 /**
  * Created by dd on 2017/3/6.
  */
-@WebServlet(name = "Record", urlPatterns = "/record")
-public class Record extends HttpServlet {
+@WebServlet(name = "ServletRecord", urlPatterns = "/record")
+public class ServletRecord extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
@@ -25,9 +26,11 @@ public class Record extends HttpServlet {
 
         UserDao ud = new UserDao();
         SportRecordDao srd = new SportRecordDao();
-        int uid = ud.getUserId(req.getParameter("username"));
+        User user = new User();
+        user.setUsername(req.getParameter("username"));
+        int uid = ud.getUserId(user);
         if (uid < 0) {
-            writer.write("用户名不存在！");
+            writer.write("error_username");
         } else {
             SportRecord record = new SportRecord();
             record.setUid(uid);
@@ -37,13 +40,17 @@ public class Record extends HttpServlet {
             record.setStartTime(req.getParameter("startTime"));
             record.setStopTime(req.getParameter("stopTime"));
             record.setStepCount(Integer.parseInt(req.getParameter("stepCount")));
-
-            String hint = "添加到数据库失败！";
-            if (srd.addRecord(record)) {
-                hint = "添加到数据库成功！";
+            String dateRegex = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$";
+            String hint = "false"; //输入是否合法，是否成功添加到数据库
+            if (record.getStartTime().matches(dateRegex)) {
+                if (srd.addRecord(record)) {
+                    hint = "true";
+                }
+                //writer.write(record.getStartTime() + "走了" + record.getStepCount() + "步！\n" + hint);
+                writer.write(hint);
             }
-            writer.write(record.getStartTime() + "走了" + record.getStepCount() + "步！\n" + hint);
         }
+        writer.flush();
         writer.close();
     }
 }
