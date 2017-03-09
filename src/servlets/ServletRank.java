@@ -58,7 +58,7 @@ public class ServletRank extends HttpServlet {
             jo.put("username", rank.getUsername());
             jo.put("isSelf", rank.isSelf());
             jo.put("totalDistance", rank.getTotalDistance());
-            ja.put(ja);
+            ja.put(jo);
         }
 
         PrintWriter writer = resp.getWriter();
